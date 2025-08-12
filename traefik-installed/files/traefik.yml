@@ -20,7 +20,7 @@ entryPoints:
     address: ":443"
     http:
       tls:
-        certResolver: my-dns-chlng
+        certResolver: my-acme
 
 providers:
   docker:
@@ -32,13 +32,18 @@ providers:
     watch: true
 
 certificatesResolvers:
-  my-dns-chlng:
+  my-acme:
     acme:
       email: "{{ traefik.letsencrypt_mail }}"
       storage: /var/traefik/acme.json
+{% if traefik.dns_challenge is defined %}
       dnsChallenge:
         provider: "{{ traefik.dns_challenge.provider }}"
         delayBeforeCheck: "600"
         resolvers:
           - "1.1.1.1:53"
           - "8.8.8.8:53"
+{% else %}
+      httpChallenge:
+        entryPoint: http
+{% endif %}

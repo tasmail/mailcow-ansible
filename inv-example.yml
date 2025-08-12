@@ -39,6 +39,7 @@ all:
         #
         # Mail to give letsencrypt as a contact
         letsencrypt_mail: info@example.org
+### START OF BLOCK - Just comment it for turn on HTTP-01 challenge
         dns_challenge:
           #
           # DNS Challenge provider code and environment setting as documented here
@@ -47,6 +48,7 @@ all:
           environment:
             - "AUTODNS_API_USER=your-user"
             - "AUTODNS_API_PASSWORD=your-users-password"
+### END OF BLOCK
       portainer:
         url: "portainer.{{ domain }}"
         installpath: /opt/portainer/

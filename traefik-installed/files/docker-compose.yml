@@ -16,10 +16,12 @@ services:
       - ./traefik.yml:/etc/traefik/traefik.yml:ro
       # File to store the certificates
       - ./acme:/var/traefik
+{% if traefik.dns_challenge is defined %}
     environment:
 {% for myenv in traefik.dns_challenge.environment %}
       - {{ myenv }}
 {% endfor %}
+{% endif %}
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
     networks:
